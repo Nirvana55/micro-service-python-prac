@@ -3,7 +3,7 @@ services:
   marketPlace:
     build:
       context: .
-      dockerfile: dockerfile:marketPlace/Dockerfile
+      dockerfile: marketPlace/Dockerfile
     environment:
       - RECOMMENDATIONS_HOST=recommendations
     image: marketplace

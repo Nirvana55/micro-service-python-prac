@@ -3,8 +3,8 @@ import os
 from flask import Flask, render_template
 import grpc
 
-from generated.recommendation_pb2 import BookCategory, RecommendationRequest
-from generated.recommendation_pb2_grpc import RecommendationsStub
+from .generated.recommendation_pb2 import BookCategory, RecommendationRequest
+from .generated.recommendation_pb2_grpc import RecommendationsStub
 
 
 app = Flask(__name__)

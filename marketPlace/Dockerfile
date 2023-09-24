@@ -5,7 +5,7 @@ RUN python -m venv /opt/venv
 COPY marketPlace/requirements.txt .
 COPY protobufs/ /service/protobufs/
 COPY marketPlace/ /service/marketPlace/
-COPY recommendations/generated /service/recommendations/generated
+COPY marketPlace/generated /service/marketPlace/generated
 WORKDIR /service/marketPlace
 ENV PATH="/opt/venv/bin:$PATH"
 RUN python -m pip install --upgrade pip
