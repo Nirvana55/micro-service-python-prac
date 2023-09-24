@@ -1,0 +1,4 @@
+# comment
+*.md
+!README.md
+__pycache__
