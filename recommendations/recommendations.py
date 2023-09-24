@@ -3,12 +3,12 @@ import random
 
 import grpc
 
-from recommendation_pb2 import (
+from generated.recommendation_pb2 import (
     BookCategory,
     BookRecommendation,
     RecommendationResponse,
 )
-import recommendation_pb2_grpc as recommendation_pb2_grpc
+import generated.recommendation_pb2_grpc as recommendation_pb2_grpc
 
 
 books_by_category = {
