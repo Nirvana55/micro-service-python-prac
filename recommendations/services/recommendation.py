@@ -1,14 +1,23 @@
 from concurrent import futures
 import random
-
+import sys
+from dotenv import load_dotenv
 import grpc
+import os
+
+load_dotenv()
+
+sys.path.append(os.getenv("PYTHON_PATH_RECOMMENDATIONS"))
 
 from generated.recommendation_pb2 import (
     BookCategory,
     BookRecommendation,
     RecommendationResponse,
 )
-import generated.recommendation_pb2_grpc as recommendation_pb2_grpc
+from generated.recommendation_pb2_grpc import (
+    RecommendationsServicer,
+    add_RecommendationsServicer_to_server,
+)
 
 
 books_by_category = {
@@ -30,7 +39,7 @@ books_by_category = {
 }
 
 
-class RecommendationService(recommendation_pb2_grpc.RecommendationsServicer):
+class RecommendationService(RecommendationsServicer):
     def Recommend(self, request, context):
         if request.category not in books_by_category:
             context.abort(grpc.StatusCode.NOT_FOUND, "Category not found")
@@ -45,9 +54,7 @@ class RecommendationService(recommendation_pb2_grpc.RecommendationsServicer):
 def serve():
     # use 10 threads to serve requests
     server = grpc.server(futures.ThreadPoolExecutor(max_workers=10))
-    recommendation_pb2_grpc.add_RecommendationsServicer_to_server(
-        RecommendationService(), server
-    )
+    add_RecommendationsServicer_to_server(RecommendationService(), server)
     server.add_insecure_port("[::]:50051")
     server.start()
     print("i have started")
