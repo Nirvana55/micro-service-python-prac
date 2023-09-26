@@ -1,26 +1,55 @@
 syntax = "proto3";
 
-enum BookCategory{
+service Recommendations {
+  rpc Recommend(RecommendationRequest) returns (RecommendationResponse) {};
+  rpc GetAllBooksRecommend(RecommendationRequest)
+      returns (GetAllBookRecommendationResponse) {};
+  rpc CreateBook(CreateBookRequest) returns (CreateBookResponse) {};
+}
+
+enum BookCategory {
   MYSTERY = 0;
   SCIENCE_FICTION = 1;
   SELF_HELP = 2;
 }
 
-message RecommendationRequest {
-  int32 user_id = 1;
-  BookCategory category = 2;
-  int32 max_results = 3;
-}
+message RecommendationRequest { int32 book_id = 1; }
+message GetAllBookRecommendationRequest {}
 
 message BookRecommendation {
   int32 id = 1;
   string title = 2;
 }
 
-message RecommendationResponse {
-  repeated BookRecommendation recommendations = 1;
+message CreateBookRequest {
+  string title = 2;
+  string author = 3;
+  string description = 4;
+  string issue_date = 5;
+  int32 price = 6;
+  BookCategory category = 7;
 }
 
-service Recommendations {
-  rpc Recommend (RecommendationRequest) returns (RecommendationResponse);
+message CreateBookResponse {
+  int32 id = 1;
+  string title = 2;
+  string author = 3;
+  string description = 4;
+  string issue_date = 5;
+  int32 price = 6;
+  BookCategory category = 7;
+}
+
+message RecommendationResponse {
+  int32 id = 1;
+  string title = 2;
+  string author = 3;
+  string description = 4;
+  string issue_date = 5;
+  int32 price = 6;
+  BookCategory category = 7;
+}
+
+message GetAllBookRecommendationResponse {
+  repeated RecommendationResponse recommendations = 1;
 }
