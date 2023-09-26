@@ -1,4 +1,4 @@
-from recommendations import RecommendationService
+from recommendations.services import RecommendationService
 from generated.recommendation_pb2 import BookCategory, RecommendationRequest
 
 
