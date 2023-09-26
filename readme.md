@@ -11,4 +11,6 @@ I produced an ExcailDraw file in which I described GRPC and its flow
 
 DM me for the file, if you need it.
 
-This repository is currently being worked on. Setting up Docker soon.
+This repository is currently being worked on.
+
+Setting up PRISMA CRUD soon.
