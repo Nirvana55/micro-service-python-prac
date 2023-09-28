@@ -13,7 +13,7 @@ model Books {
   id          Int    @id @default(autoincrement())
   title       String @unique
   author      String
-  Description String
+  description String
   issue_date  String
   price       Int
   category    String

@@ -1,26 +1,49 @@
-from prisma import Prisma
+from prisma.models import Books
 
 
 async def CreateBook(items):
-    createdBook = await Prisma.books.create(
-        {
+    createdBook = await Books.prisma().create(
+        data={
+            "title": items.title,
             "author": items.author,
-            "Description": items.description,
+            "description": items.description,
             "issue_date": items.issue_date,
             "price": items.price,
-            "title": items.title,
             "category": items.category,
         }
     )
-    print(createdBook, "asd2")
-    return {"message": "Books is successfully created", "book": createdBook}
+    return createdBook
 
 
-async def GetBooks():
-    books = await Prisma.books.find_many()
-    return {"message": "Books are listed below", "books": books}
+async def GetBooks(items):
+    allBooks = await Books.prisma().find_many()
+    return {"message": "Books are listed below", "books": allBooks}
 
 
 async def GetBook(id: int):
-    book = await Prisma.books.find_unique({"id": id})
-    return {"message": "Books are listed below", "book": book}
+    book = await Books.prisma().find_unique({"id": id})
+    return {"message": "Book fetched", "book": book}
+
+
+async def UpdateBook(id: int, items):
+    updatedBook = await Books.prisma().update(
+        where={"id": id},
+        data={
+            "title": items.title,
+            "author": items.author,
+            "description": items.description,
+            "issue_date": items.issue_date,
+            "price": items.price,
+            "category": items.category,
+        },
+    )
+    return {"message": "Books updated successfully", "book": updatedBook}
+
+
+async def DeleteBook(id: int):
+    await Books.prisma().delete(
+        where={"id": id},
+    )
+    return {
+        "message": "Books updated successfully",
+    }
