@@ -13,4 +13,14 @@ DM me for the file, if you need it.
 
 This repository is currently being worked on.
 
-Setting up PRISMA CRUD soon.
+Please do:
+
+```
+prisma generate
+prisma db push
+
+```
+
+- for generated client to access the database.
+
+Updating docker soon
