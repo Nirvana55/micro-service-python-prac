@@ -2,15 +2,11 @@ syntax = "proto3";
 
 service Recommendations {
   rpc Recommend(RecommendationRequest) returns (RecommendationResponse) {};
-  rpc GetAllBooksRecommend(RecommendationRequest)
+  rpc GetAllBooksRecommend(GetAllBookRecommendationRequest)
       returns (GetAllBookRecommendationResponse) {};
   rpc CreateBook(CreateBookRequest) returns (CreateBookResponse) {};
-}
-
-enum BookCategory {
-  MYSTERY = 0;
-  SCIENCE_FICTION = 1;
-  SELF_HELP = 2;
+  rpc UpdateBook(UpdateBookRequest) returns (UpdateBookResponse) {};
+  rpc DeleteBook(DeleteBookRequest) returns (DeleteBookResponse) {};
 }
 
 message RecommendationRequest { int32 book_id = 1; }
@@ -27,7 +23,7 @@ message CreateBookRequest {
   string description = 4;
   string issue_date = 5;
   int32 price = 6;
-  BookCategory category = 7;
+  string category = 7;
 }
 
 message CreateBookResponse {
@@ -37,7 +33,7 @@ message CreateBookResponse {
   string description = 4;
   string issue_date = 5;
   int32 price = 6;
-  BookCategory category = 7;
+  string category = 7;
 }
 
 message RecommendationResponse {
@@ -47,9 +43,32 @@ message RecommendationResponse {
   string description = 4;
   string issue_date = 5;
   int32 price = 6;
-  BookCategory category = 7;
+  string category = 7;
 }
 
 message GetAllBookRecommendationResponse {
   repeated RecommendationResponse recommendations = 1;
 }
+
+message UpdateBookRequest {
+  int32 id = 1;
+  string title = 2;
+  string author = 3;
+  string description = 4;
+  string issue_date = 5;
+  int32 price = 6;
+  string category = 7;
+}
+
+message UpdateBookResponse {
+  int32 id = 1;
+  string title = 2;
+  string author = 3;
+  string description = 4;
+  string issue_date = 5;
+  int32 price = 6;
+  string category = 7;
+}
+
+message DeleteBookRequest { int32 id = 1; }
+message DeleteBookResponse {}

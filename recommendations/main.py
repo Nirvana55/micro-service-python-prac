@@ -8,7 +8,7 @@ from services.recommendation import RecommendationService
 
 async def main() -> None:
     try:
-        db = Prisma()
+        db = Prisma(auto_register=True)
         await db.connect()
         server = grpc.aio.server(futures.ThreadPoolExecutor(max_workers=10))
         add_RecommendationsServicer_to_server(RecommendationService(), server)
