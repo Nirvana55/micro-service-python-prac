@@ -13,6 +13,7 @@ from generated.recommendation_pb2_grpc import (
     RecommendationsServicer,
 )
 from controllers import books
+from helpers import exception_helper
 
 sys.path.append(os.getenv("PYTHON_PATH_RECOMMENDATIONS"))
 load_dotenv()
