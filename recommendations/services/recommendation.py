@@ -1,8 +1,5 @@
 import sys
 import os
-
-sys.path.append(os.getenv("PYTHON_PATH_RECOMMENDATIONS"))
-
 from dotenv import load_dotenv
 import grpc
 from generated.recommendation_pb2 import (
@@ -17,25 +14,25 @@ from generated.recommendation_pb2_grpc import (
 )
 from controllers import books
 
-
+sys.path.append(os.getenv("PYTHON_PATH_RECOMMENDATIONS"))
 load_dotenv()
 
 
 class RecommendationService(RecommendationsServicer):
-    async def Recommend(self, request, context):
+    async def RecommendBook(self, request, context):
         try:
-            book = await books.GetBook(request.book_id)
-            if len(book) == 0:
-                context.abort(grpc.StatusCode.NOT_FOUND, "Book not found")
-            return RecommendationResponse(**dict(book["book"]))
+            book = await books.get_book(request.book_id)
+            if book is None:
+                return await context.abort(grpc.StatusCode.NOT_FOUND, "Book not found")
+            return RecommendationResponse(**dict(book))
         except Exception as e:
             await context.abort(grpc.StatusCode.FAILED_PRECONDITION, f"{e}")
 
     async def GetAllBooksRecommend(self, request, context):
         try:
-            getAllBooks = await books.GetBooks(request)
+            get_all_books = await books.get_books(request)
             recommendations = []
-            for book in getAllBooks["books"]:
+            for book in get_all_books:
                 recommendation = RecommendationResponse(
                     id=book.id,
                     title=book.title,
@@ -48,25 +45,25 @@ class RecommendationService(RecommendationsServicer):
                 recommendations.append(recommendation)
             return GetAllBookRecommendationResponse(recommendations=recommendations)
         except Exception as e:
-            await context.abort(grpc.StatusCode.FAILED_PRECONDITION, f"{e}")
+            return await context.abort(grpc.StatusCode.FAILED_PRECONDITION, f"{e}")
 
     async def CreateBook(self, request, context):
         try:
-            createdBook = await books.CreateBook(request)
-            return CreateBookResponse(**dict(createdBook))
+            created_book = await books.create_book(request)
+            return CreateBookResponse(**dict(created_book))
         except Exception as e:
-            await context.abort(grpc.StatusCode.FAILED_PRECONDITION, f"{e}")
+            return await context.abort(grpc.StatusCode.FAILED_PRECONDITION, f"{e}")
 
     async def UpdateBook(self, request, context):
         try:
-            updatedBooks = await books.UpdateBook(request.id, request)
-            return UpdateBookResponse(**dict(updatedBooks["book"]))
+            updated_books = await books.update_book(request.id, request)
+            return UpdateBookResponse(**dict(updated_books))
         except Exception as e:
-            await context.abort(grpc.StatusCode.FAILED_PRECONDITION, f"{e}")
+            return await context.abort(grpc.StatusCode.FAILED_PRECONDITION, f"{e}")
 
     async def DeleteBook(self, request, context):
         try:
-            deleteBook = await books.DeleteBook(request.id)
-            return DeleteBookResponse({"message": deleteBook["message"]})
+            deleted_book = await books.delete_book(request.id)
+            return DeleteBookResponse({"message": deleted_book})
         except Exception as e:
-            await context.abort(grpc.StatusCode.FAILED_PRECONDITION, f"{e}")
+            return await context.abort(grpc.StatusCode.FAILED_PRECONDITION, f"{e}")
