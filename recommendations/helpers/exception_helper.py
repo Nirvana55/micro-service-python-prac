@@ -1,5 +1,6 @@
-"""Module helper."""
+"""Module try catch helper."""
 import grpc
+from pydantic import ValidationError
 
 
 def catch_exception(func):
@@ -12,5 +13,7 @@ def catch_exception(func):
             await context.abort(grpc.StatusCode.INTERNAL, f"{error}")
         except grpc.RpcError as error:
             await context.abort(grpc.StatusCode.INTERNAL, f"{error}")
+        except ValidationError as error:
+            await context.abort(grpc.StatusCode.INVALID_ARGUMENT, str(error))
 
     return wrapper
