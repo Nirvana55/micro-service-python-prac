@@ -71,4 +71,4 @@ message UpdateBookResponse {
 }
 
 message DeleteBookRequest { int32 id = 1; }
-message DeleteBookResponse {}
+message DeleteBookResponse { string message = 1; }
