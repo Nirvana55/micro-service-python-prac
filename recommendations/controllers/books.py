@@ -33,14 +33,7 @@ async def update_book(book_id: int, items):
     """update single book"""
     updated_book = await Books.prisma().update(
         where={"id": book_id},
-        data={
-            "title": items.title,
-            "author": items.author,
-            "description": items.description,
-            "issue_date": items.issue_date,
-            "price": items.price,
-            "category": items.category,
-        },
+        data=items,
     )
     return updated_book
 

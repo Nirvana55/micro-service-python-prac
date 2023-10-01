@@ -48,12 +48,22 @@ class RecommendationService(RecommendationsServicer):
 
     @catch_exception
     async def UpdateBook(self, request, context):
-        await unique_id(request.id)
-        updated_books = await books.update_book(request.id, request)
+        book = await unique_id(request.id)
+        update_value = {
+            "title": request.title if request.title else book.title,
+            "author": request.author if request.author else book.author,
+            "description": request.description
+            if request.description
+            else book.description,
+            "issue_date": request.issue_date if request.issue_date else book.issue_date,
+            "price": request.price if request.price else book.price,
+            "category": request.category if request.category else book.category,
+        }
+        updated_books = await books.update_book(request.id, update_value)
         return pb2.UpdateBookResponse(**dict(updated_books))
 
     @catch_exception
     async def DeleteBook(self, request, context):
         await unique_id(request.id)
         deleted_book = await books.delete_book(request.id)
-        return pb2.DeleteBookResponse({"message": deleted_book})
+        return pb2.DeleteBookResponse(message=deleted_book)
