@@ -1,7 +1,9 @@
+"""Module Book Controller"""
 from prisma.models import Books
 
 
 async def create_book(items):
+    """creates book"""
     created_book = await Books.prisma().create(
         data={
             "title": items.title,
@@ -16,18 +18,21 @@ async def create_book(items):
 
 
 async def get_books(items):
+    """get recommended book"""
     all_books = await Books.prisma().find_many()
     return all_books
 
 
-async def get_book(id: int):
-    book = await Books.prisma().find_unique({"id": id})
+async def get_book(book_id: int):
+    """get single book"""
+    book = await Books.prisma().find_unique({"id": book_id})
     return book
 
 
-async def update_book(id: int, items):
-    update_book = await Books.prisma().update(
-        where={"id": id},
+async def update_book(book_id: int, items):
+    """update single book"""
+    updated_book = await Books.prisma().update(
+        where={"id": book_id},
         data={
             "title": items.title,
             "author": items.author,
@@ -37,11 +42,12 @@ async def update_book(id: int, items):
             "category": items.category,
         },
     )
-    return update_book
+    return updated_book
 
 
-async def delete_book(id: int):
+async def delete_book(book_id: int):
+    """delete single book"""
     await Books.prisma().delete(
-        where={"id": id},
+        where={"id": book_id},
     )
-    return "Books updated successfully"
+    return "Book deleted successfully"
