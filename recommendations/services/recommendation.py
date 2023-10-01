@@ -2,7 +2,6 @@
 import sys
 import os
 from dotenv import load_dotenv
-import grpc
 import generated_recommendations.recommendation_pb2 as pb2
 from generated_recommendations.recommendation_pb2_grpc import (
     RecommendationsServicer,
