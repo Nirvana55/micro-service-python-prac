@@ -26,7 +26,7 @@ class RecommendationService(RecommendationsServicer):
         return pb2.RecommendationResponse(**dict(book))
 
     @catch_exception
-    async def GetAllBooksRecommend(self, request):
+    async def GetAllBooksRecommend(self, request, context):
         get_all_books = await books.get_books(request)
         recommendations = []
         for book in get_all_books:
@@ -43,16 +43,16 @@ class RecommendationService(RecommendationsServicer):
         return pb2.GetAllBookRecommendationResponse(recommendations=recommendations)
 
     @catch_exception
-    async def CreateBook(self, request):
+    async def CreateBook(self, request, context):
         created_book = await books.create_book(request)
         return pb2.CreateBookResponse(**dict(created_book))
 
     @catch_exception
-    async def UpdateBook(self, request):
+    async def UpdateBook(self, request, context):
         updated_books = await books.update_book(request.id, request)
         return pb2.UpdateBookResponse(**dict(updated_books))
 
     @catch_exception
-    async def DeleteBook(self, request):
+    async def DeleteBook(self, request, context):
         deleted_book = await books.delete_book(request.id)
         return pb2.DeleteBookResponse({"message": deleted_book})
