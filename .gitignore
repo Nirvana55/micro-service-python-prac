@@ -1,6 +1,11 @@
 env/
 .vscode/
 __pycache__/
+generated_recommendations/
 generated/
 .env
 *.db
+migrations/
+*.toml
+*.db-journal
+*.sql
