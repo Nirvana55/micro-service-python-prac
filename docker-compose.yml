@@ -3,7 +3,7 @@ services:
   marketPlace:
     build:
       context: .
-      dockerfile: marketPlace/Dockerfile
+      dockerfile: market_place/Dockerfile
     environment:
       - RECOMMENDATIONS_HOST=recommendations
     image: marketplace
@@ -19,6 +19,16 @@ services:
     image: recommendations
     networks:
       - microservices
+    volumes:
+      - ./recommendations/prisma:/service/recommendations/prisma
 
+  database:
+    image: sqlite
+    ports:
+      - '8080:80'
+    environment:
+      - DATABASE_URL=file:microservice.db
+    volumes:
+      - ./recommendations/prisma:/service/recommendations/prisma
 networks:
   microservices:
