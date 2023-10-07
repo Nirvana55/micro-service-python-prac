@@ -9,3 +9,4 @@ migrations/
 *.toml
 *.db-journal
 *.sql
+db

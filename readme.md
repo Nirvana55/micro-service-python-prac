@@ -23,4 +23,4 @@ prisma db push
 
 - for generated client to access the database.
 
-Updating docker soon
+- Create a separate docker for your db and run two micro service. Then it can communicate easily.

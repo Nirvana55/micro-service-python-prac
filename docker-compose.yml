@@ -19,16 +19,8 @@ services:
     image: recommendations
     networks:
       - microservices
-    volumes:
-      - ./recommendations/prisma:/service/recommendations/prisma
+    env_file:
+      - recommendations/.env
 
-  database:
-    image: sqlite
-    ports:
-      - '8080:80'
-    environment:
-      - DATABASE_URL=file:microservice.db
-    volumes:
-      - ./recommendations/prisma:/service/recommendations/prisma
 networks:
   microservices:
