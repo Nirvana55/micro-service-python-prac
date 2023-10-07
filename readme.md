@@ -13,14 +13,15 @@ DM me for the file, if you need it.
 
 This repository is currently being worked on.
 
-Please do:
+To generate client to access the database:
 
 ```
-prisma generate
+prisma init
 prisma db push
+prisma generate
 
 ```
 
-- for generated client to access the database.
+Create a separate docker for your db and run it in background. Then you can run two microservices.
 
-- Create a separate docker for your db and run two micro service. Then it can communicate easily.
+You can make rpc call from the client and it will access the data from the recommendations server.
